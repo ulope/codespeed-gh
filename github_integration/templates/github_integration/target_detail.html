@@ -1,0 +1,10 @@
+<h1>{{ target }}</h1>
+<p>{{ target.commits.first.status }}</p>
+
+{% for job in target.commits.first.jobs.all %}
+    <h2>{{ job.name }}</h2>
+    <p>{{ job.status }}</p>
+    <pre>{{ job.log }}</pre>
+    <pre>{{ job.result }}</pre>
+    <hr>
+{% endfor %}

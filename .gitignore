@@ -1,0 +1,13 @@
+*.pyc
+*.swp
+*.swo
+.DS_Store
+*.db
+sample_project/repos/*
+override
+build
+dist
+codespeed.egg-info/
+dev.db
+*.env
+pg_data

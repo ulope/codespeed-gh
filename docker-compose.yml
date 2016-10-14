@@ -1,0 +1,59 @@
+version: "2"
+
+services:
+  postgres:
+    image: postgres
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: "codespeed"
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    volumes:
+      - "$PGDATA:/var/lib/postgresql/data/pgdata"
+
+  redis:
+    image: redis
+
+  app:
+    build: .
+    image: ulope/codespeed
+    ports:
+      - "$APP_EXTERNAL_PORT:8000"
+    links:
+      - postgres
+      - redis
+    environment:
+      DATABASE_URL: "postgres://postgres@postgres/codespeed"
+      REDIS_HOST: "redis"
+      MIGRATE: 1
+    env_file:
+      settings.env
+
+  worker:
+    image: ulope/codespeed
+    command: rqworker
+    links:
+      - postgres
+      - redis
+    environment:
+      DATABASE_URL: "postgres://postgres@postgres/codespeed"
+      REDIS_HOST: "redis"
+    env_file:
+      settings.env
+
+  jobs:
+    image: ulope/codespeed
+    command: rqworker jobs
+    container_name: "${COMPOSE_PROJECT_NAME}_jobs"
+    links:
+      - postgres
+      - redis
+    environment:
+      DATABASE_URL: "postgres://postgres@postgres/codespeed"
+      REDIS_HOST: "redis"
+      TMP_DIR: "$TMPDIR"
+    env_file:
+      settings.env
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "$TMPDIR:$TMPDIR"

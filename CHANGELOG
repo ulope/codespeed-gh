@@ -1,0 +1,204 @@
+== Change Log ==
+
+=== Version 0.11.0, July 31, 2016 ===
+* NEW #191: Django 1.7 and 1.8 support
+* NEW #192: Initial Python 3.4 support
+* NEW #199: str4d upgraded all javascript libraries. Most importantly jqPlot to 1.0.9 and jQuery to 1.12.3
+* NEW #203: str4d implemented displaying of quartile and extrema bands on median benchmarks
+* NEW #295: javierhonduco gave the application a more modern look
+
+=== Version 0.10.1, November 1, 2015 ===
+* NEW #169: nomeata added admin action to recalculate reports
+* NEW #169: nomeata increased allowed length for benchmark names to 100 chars
+* FIX #186: pepsiman fixed getting commit logs for non-default branches on mercurial
+* FIX #170: Show infinite increase instead of "-"
+* FIX: various admin fixes
+
+
+=== Version 0.10.0, December 27, 2013 ===
+* NEW #108: AlekSi made executable names uniques per project instead of globally
+* NEW #148: staticfloat added the ability to set benchmark fields when saving results for a new benchmark
+* NEW #149, #161: rchikhi and others fixed Django compatibility with versions 1.4-1.6
+* NEW #158: smarr added initial travis configuration. Continuous integration is now enabled for Codespeed
+* NEW #32: squiddy added option to control display of authors email address
+* OPTIMIZATION #98: squiddy greatly reduced the number of necessary queries for getting comparison data, getting down the response time by an order of magnitude
+* FIX #86: a8 fixed timeline plot failing when more than 4 series were selected
+* FIX #130: alkino fixed migrations 0006 and 0012
+* FIX #151: philangist migrated Github integration to API v3
+* FIX #85: a8 fixed timeline view on IE
+
+
+=== Version 0.9.1, September 11, 2011 ===
+* NEW: Stefan added the possibility to name the default branch other than "default"
+* NEW: Danilo added executable grouping by project
+* NEW: Made default number of data points in the timeline plots configurable
+* FIX: Frank fixed a lot of issues with the deploy examples
+* FIX: Other numerous fixes
+
+
+=== Version 0.9.0, July 17, 2011 ===
+* NEW: Frank refactored the Django project and app. Now Codespeed is a proper, installable Django app, and there is a sample project in the "example" dir
+* NEW: Upgraded to jQuery 1.6
+* NEW #44: Stefan added an option to the timeline view for equidistant data point plotting
+* NEW: Permalinks are now id based for Environment, to shorten the length and avoid problems related to url encoding, as well as to allow changing the name without beaking the permalink
+* FIX: Frank added a check for revision_date = "None" (as string), caused by the 
+    save_single_result.py sample script
+
+
+=== Version 0.8.1, June 29, 2011 ===
+
+* NEW: Settings option to select the default benchmark in the timeline view
+* NEW: Added save_multiple_results, an example script that saves data using JSON
+* NEW #45: Stefan Marr added support for browser-button navigation on timeline
+* FIX: Stefan Marr improved the GitHub plugin
+* FIX: Improvements in the Changes View layout that prevent overlapping in some cases
+* FIX: Stefan Marr fixed a bug where links to a changes view revision from the 
+    timeline view would not work because they used short commit ids
+* FIX: Stefan Marr prevented some infinite loops caused when results were equal or less than 0
+
+
+=== Version 0.8.0, June 20, 2011 ===
+
+This release involved big refactorings. The addition of branches, particularly, changes the DB schema, so that old DBs will need to be migrated. See instructions of how to migrate in the Wiki pages.
+
+Major features:
+* acdha added support for git and github
+* Danilo implemented branches. A revision is now always associated to a branch, and different branches can be compared in the Comparison view
+* Server Logging
+* David Fraser added new documetation explaining the Codespeed views and concepts
+
+
+=== Version 0.7.0, Jan 20, 2011 ===
+
+Major features:
+* New home page with result Reports: show summary of latest benchmark runs
+* RSS feed showing Reports
+* Support for Netbooks, tablets, and smartphones screen sizes through the use of media query
+* Big performance improvements in the Changes and Timeline views
+* Added settings for change and trend thresholds and default comparison executables
+* Mercurial support
+
+
+=== Version 0.6.2, Jul 25, 2010 ===
+
+Bug Fix release
+
+* Changes view:
+    - Render a different results table for each unit type.
+      Finally fixes color coding of benchmark results which have different "lessisbetter" values
+    - Display min/max columns if data present
+    - Display only significant digits (automatically calculated precision)
+    - Small CSS touches
+
+
+=== Version 0.6.1, Jul 16, 2010 ===
+
+Bug fix release
+
+* General:
+    - Repare 404 and 500 pages
+* Changes view:
+    - Fix units column and less is better checking in the changes table
+    - Stop loading commit logs when URL does not respond
+    Timeline view:
+    - Fix timeline grid bug triggered when benchmarks names present with special characters (reported by joe)
+    - Don't display grid option when only one benchmark present
+* Comparison view:
+    - Fix several small bugs
+    - Make chart defaults configurable in settings (whished by joe)
+    - Change in style when there are lots of benchmarks: no bar padding.
+    - Fix benchmark/legend ordering
+    - Improve error messages
+    - Issue correctness warning for normalized stacked bars.
+    
+* Known bugs:
+    - There are several bugs in the comparison view related to the plotting library jqplot
+    - Bad autoscaling under some circumstancies. Issue#199 (http://bitbucket.org/cleonello/jqplot/issue/199/autoscale-breaks-negative-values)
+    - infinite loop in some cases, notably when there are no result values for some benchmarks. Issue#200 (http://bitbucket.org/cleonello/jqplot/issue/200/autoscale-error)
+
+
+=== Version 0.6.0, Jun 23, 2010 ===
+
+This release brings a new view, together with many other changes. Unfortunately the DB Schema had to be changed, so it is not compatible with existing databases without migration. The decision was taken in order to make the executable model simpler.
+
+    * DB Modifications:
+        o Executable: removed coptions and added a description field, as it really didn't bring much and it made things unecessarily complicated. This is the main reason for a DB change
+        o Benchmark: Added a units_title field, which is used as plot title
+        o Charfield lengths where adjusted
+    * New feature: Comparison view
+        o Normal bar charts
+        o Cumulative bar charts
+        o Relative bar charts
+        o Horizontal or verical orientation
+    * Name change: Overview became Changes
+        o Removal of inline plot bars (covered now by the comparison view)
+        o Added environment and executable info box
+    * Timeline view:
+        o Allow to select a baseline
+        o Added plot title
+
+
+=== Version 0.5, May 10, 2010 ===
+
+The focus of this release was polishing, making everything work seamlessly and cementing the DB design. The DB Schema should remain stable from now on. Last but not least, the installation and configuration process of codespeed was greatly simplified and is now documented.
+
+I believe codespeed is now ready for general use.
+Thanks go to Joe and to Oriol Rius for their feedback, which made this posible.
+Changelog
+
+    * DB Modifications:
+          o Project Model got repo fields renamed and 2 new repo fields added
+          o Changed Project field “isdefault” to “track”
+          o Some fields got their char length adjusted
+    * Documentation: Added README with installation and configuration instructions
+    * SVN integration: get logs from repos that need user/password
+    * Defaults: default settings.py DB is now sqlite3
+    * Overview
+          o Show units column when different than seconds and colorcode based on lessisbetter
+          o Allow selection of any revision via URL
+    * Timeline:
+          o Completed timeline – overview integration: clicking on a data point redirects to overview for that revision and executable
+          o Allow viewing arbitrary number of revisions (via URL)
+    * Style: smaller logo, and some other style touches
+    * Templates: only define speedcenter name in base.html
+    * Multiple Hosts (Environments): it now just works
+    * Multiple Projects: more than one project can know be default (tracked)
+
+
+=== Version 0.4, April 13, 2010 ===
+
+    * DB Redesign (http://github.com/tobami/codespeed/blob/master/documentation/backend.png)
+          o New Project model
+          o Benchmark model now has units and associated lessisbetter field
+          o Revision model: make usable with git and other DCVS by having a commitid charfield instead of version number. Add branch field.
+          o Interpreter model changed to Executable. It is now associated to a Project.
+          o Result model now has std deviation, max, and min optional fields. Result_type removed (in Benchmark model now).
+    * Revision control integration
+          o Integration for svn implemented, others like git are possible
+    * Added Home and About pages
+    * Overview
+          o Revisions labels now include date (you can’t memorize commitid in git)
+          o Allow selecting of executable and revision to compare to.
+          o Add std dev column
+          o Show all commit logs between the selected revision and the (tested) one preceding it.
+
+
+=== Version 0.3, March 10, 2010 ===
+
+    * Plot Grid: a new default view for Timeline, showing all benchmarks at the same time
+          o Thanks go to nsf (no.smile.face) for helping with the implementation
+          o Added colored boxes to the interpreter list
+    * Decoupled the codespeed app from the Django project
+          o Changed pyspeed to speedcenter (better generic project name for a benchmarking site)
+          o Moved app specific settings to codespeed/settings.py
+          o Moved templates to its subdirectory
+    * Several bug fixes
+
+
+=== Version 0.2, March 09, 2010 ===
+
+    * First working version for speed.pypy.org
+    * Backend
+    * Views
+          o Overview
+          o Timeline

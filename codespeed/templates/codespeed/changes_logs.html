@@ -1,0 +1,27 @@
+{% if error %}
+    <tr><td colspan="2">Error while retrieving logs: {{ error }}</td></tr>
+{% else %}
+    {% for log in logs %}
+        <tr>
+            <th class="date infofirst">{{ log.date }}</th>
+            <td>
+                {% if log.author_email and show_email_address %}
+                    <a class="author fn" href="mailto:{{ log.author_email }}">{{ log.author }}</a>
+                {% else %}
+                    <span class="author fn">{{ log.author }}</span>
+                {% endif %}
+                commited
+                {% if log.commit_browse_url %}
+                    <a class="commit-id" title="{{ log.commitid }}" href="{{ log.commit_browse_url }}">{{ log.short_commit_id|default:log.commitid }}</a>:
+                {% else %}
+                    <abbr class="commit-id" title="{{ log.commitid }}">{{ log.short_commit_id|default:log.commitid }}</abbr>:
+                {% endif %}
+
+                <pre class="message">{{ log.message|linebreaksbr|urlize }}</pre>
+                {% if log.body %}
+                    <pre class="body">{{ log.body|linebreaksbr|urlize }}</pre>
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+{% endif %}
